@@ -4,7 +4,7 @@ This model detects the defined object and draws bounding box, if the defined obj
 You can check the defined object in coco file.
 
 You can find the original source code:
-https://github.com/darshanadakane/yolov3_realTimeObjectDetection/blob/master/YOLO_ObjectDetectionInVideo_git.ipynb
+https://github.com/opencv/opencv/blob/master/samples/dnn/object_detection.py
 
 You can find the video related to source code:
 https://www.youtube.com/watch?v=1LCb1PVqzeY
