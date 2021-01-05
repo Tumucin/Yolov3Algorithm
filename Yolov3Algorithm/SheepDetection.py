@@ -20,6 +20,7 @@ blob = cv2.dnn.blobFromImage(frame,0.00392,(320,320),(0,0,0),True,crop=False) #r
         
 net.setInput(blob)
 outs = net.forward(outputlayers)
+print(outs[0][0])
 
  #Showing info on screen/ get confidence score of algorithm in detecting an object in blob
 class_ids=[]
