@@ -11,7 +11,7 @@ with open("coco","r") as f:
     classes = [line.strip() for line in f.readlines()]
 
 # Reads the image
-frame = cv2.imread('sheep1.jpeg')
+frame = cv2.imread('giraffe.jpg')
 height, width, ch = frame.shape
 #reduce frame to 608x608 pixel to feed NN
 blob = cv2.dnn.blobFromImage(frame,0.00392,(608,608),(0,0,0),True,crop=False)    
@@ -25,9 +25,10 @@ min_confidence=0.6
 
 for i in range(outputs.shape[0]):
     prob_arr = outputs[i][5:] # Looks the prob value of each class for each grid cell
-    class_index = prob_arr.argmax(axis=0) # Gets the max prob
+    class_index = np.argmax(prob_arr) # Gets the max prob
     confidence = prob_arr[class_index]
-    if confidence > min_confidence and class_index==18: # Draws rectangle for only sheep
+    if confidence > min_confidence: # Draws rectangle for only sheep
+        print(confidence)
         x_center_box = outputs[i][0] * width # Calculates centerx of box in input image frame
         y_center_box = outputs[i][1] * height # Calculates centery of box in input image frame
         width_box = outputs[i][2] * width

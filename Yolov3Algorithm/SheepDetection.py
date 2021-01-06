@@ -2,25 +2,32 @@ import cv2
 import numpy as np
 import time
 
+
+# Read deep learning network
 net = cv2.dnn.readNet('yolov3.weights','yolov3.cfg')
+
+# Read classes names
 classes = []
 with open('coco','r') as f:
     classes = f.read().splitlines()
 
+# Input to dnn
 frame =cv2.imread('Test6.jpeg')
+print(type(frame))
 
 layer_names = net.getLayerNames()
 outputlayers = [layer_names[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 colors= np.random.uniform(0,255,size=(len(classes),3))
 
 height,width,channels = frame.shape
+print(type(height))
     #detecting objects
-blob = cv2.dnn.blobFromImage(frame,0.00392,(320,320),(0,0,0),True,crop=False) #reduce 416 to 320    
+blob = cv2.dnn.blobFromImage(frame,0.00392,(608,608),(0,0,0),True,crop=False) #reduce 416 to 320    
 
         
 net.setInput(blob)
 outs = net.forward(outputlayers)
-print(outs[0][0])
+
 
  #Showing info on screen/ get confidence score of algorithm in detecting an object in blob
 class_ids=[]
