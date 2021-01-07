@@ -42,6 +42,8 @@ class SheepDetection():
 
         # Sets blob for Neural Network
         self.blob = cv2.dnn.blobFromImage(frame,0.00392,(self.size,self.size),(0,0,0),True,crop=False)
+        cv2.imshow('Image',frame)
+        cv2.waitKey(0)
         return frame
 
     def SetVideoFrame(self,frame):
@@ -119,26 +121,27 @@ class SheepDetection():
                 color = self.colors[class_ids[i]]
                 cv2.rectangle(frame,(x,y),(x+w,y+h),color,2)
         cv2.imshow("Image",frame)
-        key = cv2.waitKey(10) #wait 1ms the loop will start again and we will process the next frame 
+         
 
 if __name__ == "__main__":
-
-    # Creates sheep object
-    sheepObj = SheepDetection()
-    #cap = cv2.VideoCapture(0)
-    #_,frame= cap.read() # 
-    #while True:
-    # Set image for the Neural Networks
-    frame = sheepObj.setImage('sheep5.jpeg')
-    #Set Video frame
-    #sheepObj.SetVideoFrame(frame)
-    # Detects the possible objects and boxes
-    boxes, confidences, class_ids = sheepObj.detectAndLocaliza(frame)
-    # Performs non maximum suppression given boxes and corresponding scores. 
-    indexes = cv2.dnn.NMSBoxes(boxes,confidences,0.4,0.6)
-    # Finally draw the bounding boxes 
-    sheepObj.drawRectangle(boxes, confidences, class_ids,indexes,frame)
-    print("ok")
-    #cap.release()
-    cv2.waitKey(0)
-    cv2.destroyAllWindows()
+    try:
+        # Creates sheep object
+        sheepObj = SheepDetection()
+        #cap = cv2.VideoCapture(0)
+        #_,frame= cap.read() # 
+        #while True:
+        # Set image for the Neural Networks
+        frame = sheepObj.setImage('Sheep_7.jpeg')
+        #Set Video frame
+        #sheepObj.SetVideoFrame(frame)
+        # Detects the possible objects and boxes
+        boxes, confidences, class_ids = sheepObj.detectAndLocaliza(frame)
+        # Performs non maximum suppression given boxes and corresponding scores. 
+        indexes = cv2.dnn.NMSBoxes(boxes,confidences,0.4,0.6)
+        # Finally draw the bounding boxes 
+        sheepObj.drawRectangle(boxes, confidences, class_ids,indexes,frame)
+        #cap.release()
+        cv2.waitKey(0)
+        cv2.destroyAllWindows()
+    except:
+        pass
