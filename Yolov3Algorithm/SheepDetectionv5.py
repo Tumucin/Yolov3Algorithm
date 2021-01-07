@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import time
+import sys
 
 class SheepDetection():
     def __init__(self):
@@ -121,27 +122,39 @@ class SheepDetection():
                 color = self.colors[class_ids[i]]
                 cv2.rectangle(frame,(x,y),(x+w,y+h),color,2)
         cv2.imshow("Image",frame)
+        cv2.waitKey(2000)
          
 
 if __name__ == "__main__":
     try:
-        # Creates sheep object
+        argumentList = sys.argv[1:]
         sheepObj = SheepDetection()
-        #cap = cv2.VideoCapture(0)
-        #_,frame= cap.read() # 
-        #while True:
-        # Set image for the Neural Networks
-        frame = sheepObj.setImage('Sheep_7.jpeg')
-        #Set Video frame
-        #sheepObj.SetVideoFrame(frame)
-        # Detects the possible objects and boxes
-        boxes, confidences, class_ids = sheepObj.detectAndLocaliza(frame)
-        # Performs non maximum suppression given boxes and corresponding scores. 
-        indexes = cv2.dnn.NMSBoxes(boxes,confidences,0.4,0.6)
-        # Finally draw the bounding boxes 
-        sheepObj.drawRectangle(boxes, confidences, class_ids,indexes,frame)
-        #cap.release()
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        if argumentList[0] == '-1': # If it is image 
+            # Set image for the Neural Networks
+            frame = sheepObj.setImage(argumentList[1])
+
+            # Detects the possible objects and boxes
+            boxes, confidences, class_ids = sheepObj.detectAndLocaliza(frame)
+
+            # Performs non maximum suppression given boxes and corresponding scores. 
+            indexes = cv2.dnn.NMSBoxes(boxes,confidences,0.4,0.6)
+
+            # Finally draw the bounding boxes 
+            sheepObj.drawRectangle(boxes, confidences, class_ids,indexes,frame)
+        else:
+            # Video capture
+            cap = cv2.VideoCapture(argumentList[1])
+            
+            while True:
+                _,frame= cap.read()
+                sheepObj.SetVideoFrame(frame)
+                boxes, confidences, class_ids = sheepObj.detectAndLocaliza(frame)
+                # Performs non maximum suppression given boxes and corresponding scores. 
+                indexes = cv2.dnn.NMSBoxes(boxes,confidences,0.4,0.6)
+                # Finally draw the bounding boxes 
+                sheepObj.drawRectangle(boxes, confidences, class_ids,indexes,frame)
+
+            cap.release()
+            cv2.destroyAllWindows()
     except:
         pass
