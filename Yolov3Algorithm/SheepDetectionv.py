@@ -26,7 +26,7 @@ class SheepDetection():
         self.blob = None
 
         # Threshold for probabilities
-        self.min_confidence = 0.6
+        self.min_confidence = 0.3
 
         # Colors for bounding box
         self.colors= np.random.uniform(0,255,size=(len(self.class_names),3))
@@ -44,7 +44,7 @@ class SheepDetection():
         # Sets blob for Neural Network
         self.blob = cv2.dnn.blobFromImage(frame,0.00392,(self.size,self.size),(0,0,0),True,crop=False)
         cv2.imshow('Image',frame)
-        cv2.waitKey(0)
+        cv2.waitKey(100)
         return frame
 
     def SetVideoFrame(self,frame):
@@ -76,9 +76,7 @@ class SheepDetection():
         class_ids=[]
         confidences=[]
         boxes=[]
-        frame_id = 0
         font = cv2.FONT_HERSHEY_PLAIN
-        starting_time= time.time()
         for out in outs:
             for detection in out:
                 scores = detection[5:]
